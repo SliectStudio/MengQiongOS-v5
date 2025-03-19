@@ -1,6 +1,6 @@
 {
   "name": "mengqiongos-desktop",
-  "version": "5.1.0",
+  "version": "5.1.0-alpha.1",
   "private": true,
   "author": "JamYido <2812856215@qq.com>",
   "main": "dist-electron/main.js",
