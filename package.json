@@ -14,13 +14,6 @@
   },
   "dependencies": {
     "rollup": "^4.36.0",
-    "electron": "^29.3.0",
-    "electron-builder": "^24.13.3",
-    "nuxt": "3.6.5",
-    "nuxt-electron": "file:../",
-    "rimraf": "^5.0.5",
-    "vite-plugin-electron": "^0.28.4",
-    "vite-plugin-electron-renderer": "^0.14.5",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
   },
@@ -31,9 +24,7 @@
     "nuxt-electron": "file:../",
     "rimraf": "^5.0.5",
     "vite-plugin-electron": "^0.28.4",
-    "vite-plugin-electron-renderer": "^0.14.5",
-    "vue": "^3.4.21",
-    "vue-router": "^4.3.0"
+    "vite-plugin-electron-renderer": "^0.14.5"
   },
   "build": {
     "appId": "com.mengqiongos.app",
