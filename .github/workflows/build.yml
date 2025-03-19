@@ -39,14 +39,16 @@ jobs:
         with:
           name: builds-${{ matrix.os }}
           path: |
-            dist/*.exe
-            dist/*.dmg
-            dist/*.AppImage
-            dist/*.deb
-            dist/*.rpm
+            release/${{ steps.package_version.outputs.version }}/*.exe
+            release/${{ steps.package_version.outputs.version }}/*.msi
+            release/${{ steps.package_version.outputs.version }}/*.dmg
+            release/${{ steps.package_version.outputs.version }}/*.zip
+            release/${{ steps.package_version.outputs.version }}/*.AppImage
+            release/${{ steps.package_version.outputs.version }}/*.deb
+            release/${{ steps.package_version.outputs.version }}/*.rpm
             .output/**/*
           retention-days: 5
-          if-no-files-found: error
+          if-no-files-found: warn  # 改为 warn 避免因为某些平台没有特定格式而失败
           
   release:
     needs: build
@@ -71,7 +73,9 @@ jobs:
           name: Release v${{ steps.package_version.outputs.version }}
           files: |
             artifacts/**/*.exe
+            artifacts/**/*.msi
             artifacts/**/*.dmg
+            artifacts/**/*.zip
             artifacts/**/*.AppImage
             artifacts/**/*.deb
             artifacts/**/*.rpm
