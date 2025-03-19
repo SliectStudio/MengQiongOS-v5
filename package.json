@@ -6,7 +6,7 @@
   "main": "dist-electron/main.js",
   "scripts": {
     "dev": "nuxi dev --no-fork",
-    "build": "nuxt build && electron-builder",
+    "build": "rimraf dist-electron && rimraf .output && nuxt build && electron-builder",
     "release": "electron-builder --publish always",
     "release:patch": "npm version patch && git push --follow-tags",
     "release:minor": "npm version minor && git push --follow-tags",
@@ -21,7 +21,9 @@
     "vite-plugin-electron": "^0.28.4",
     "vite-plugin-electron-renderer": "^0.14.5",
     "vue": "^3.4.21",
-    "vue-router": "^4.3.0"
+    "vue-router": "^4.3.0",
+    "rimraf": "^5.0.5",
+    "@rollup/rollup-win32-x64-msvc": "4.13.0"
   },
   "build": {
     "appId": "com.mengqiongos.app",
