@@ -24,8 +24,7 @@ jobs:
       - name: Get package version
         id: package_version
         shell: bash
-        run: |
-          echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+        run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
           
       - name: Install dependencies
         run: yarn install
@@ -45,13 +44,10 @@ jobs:
         with:
           name: builds-${{ matrix.os }}
           path: |
-            release/**/*.exe
-            release/**/*.msi
-            release/**/*.dmg
-            release/**/*.zip
-            release/**/*.AppImage
-            release/**/*.deb
-            release/**/*.rpm
+            release/${{ steps.package_version.outputs.version }}/MengQiongOS-*
+            !release/${{ steps.package_version.outputs.version }}/win-unpacked/**
+            !release/${{ steps.package_version.outputs.version }}/mac-unpacked/**
+            !release/${{ steps.package_version.outputs.version }}/linux-unpacked/**
           retention-days: 5
           if-no-files-found: warn
           
@@ -63,6 +59,7 @@ jobs:
       
       - name: Get package version
         id: package_version
+        shell: bash
         run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
         
       - name: Download all artifacts
@@ -74,8 +71,8 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: v${{ env.version }}
-          name: Release v${{ env.version }}
+          tag_name: v${{ steps.package_version.outputs.version }}
+          name: Release v${{ steps.package_version.outputs.version }}
           files: artifacts/**/*[0-9].*
           fail_on_unmatched_files: false
           generate_release_notes: true
