@@ -1,7 +1,8 @@
 // @see - https://www.electron.build/configuration/configuration
 {
   "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
-  "appId": "your.app.id",
+  "appId": "cn.sliect.mengqiongos",
+  "productName": "MengQiongOS",
   "asar": false,
   "directories": {
     "output": "release/${version}"
@@ -11,21 +12,49 @@
     ".output/**/*"
   ],
   "mac": {
-    "artifactName": "${productName}_${version}.${ext}",
+    "artifactName": "${productName}_${version}_mac_${arch}.${ext}",
     "target": [
-      "dmg"
-    ]
+      {
+        "target": "dmg",
+        "arch": ["x64", "arm64"]
+      },
+      {
+        "target": "zip",
+        "arch": ["x64", "arm64"]
+      }
+    ],
+    "category": "public.app-category.productivity"
   },
   "win": {
     "target": [
       {
         "target": "nsis",
-        "arch": [
-          "x64"
-        ]
+        "arch": ["x64", "ia32"]
+      },
+      {
+        "target": "zip",
+        "arch": ["x64", "ia32"]
       }
     ],
-    "artifactName": "${productName}_${version}.${ext}"
+    "artifactName": "${productName}_${version}_win_${arch}.${ext}"
+  },
+  "linux": {
+    "target": [
+      {
+        "target": "AppImage",
+        "arch": ["x64"]
+      },
+      {
+        "target": "deb",
+        "arch": ["x64"]
+      },
+      {
+        "target": "rpm",
+        "arch": ["x64"]
+      }
+    ],
+    "artifactName": "${productName}_${version}_linux_${arch}.${ext}",
+    "category": "Development"
   },
   "nsis": {
     "oneClick": false,
