@@ -1,6 +1,6 @@
 {
   "name": "mengqiongos-desktop",
-  "version": "5.1.0-alpha.1",
+  "version": "5.1.0",
   "private": true,
   "author": "JamYido <2812856215@qq.com>",
   "main": "dist-electron/main.js",
@@ -34,15 +34,23 @@
       "dist-electron/**/*"
     ],
     "win": {
-      "target": ["nsis"],
+      "target": [
+        "nsis"
+      ],
       "icon": "public/icon.ico"
     },
     "mac": {
-      "target": ["dmg"],
+      "target": [
+        "dmg"
+      ],
       "icon": "public/icon.icns"
     },
     "linux": {
-      "target": ["AppImage", "deb", "rpm"],
+      "target": [
+        "AppImage",
+        "deb",
+        "rpm"
+      ],
       "icon": "public/icon.png"
     }
   }
