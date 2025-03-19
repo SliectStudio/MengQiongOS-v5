@@ -25,21 +25,10 @@ jobs:
         id: package_version
         run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
           
-      - name: Install base dependencies
-        run: |
-          npm install --ignore-scripts
-          
-      - name: Install platform-specific rollup
-        shell: bash
-        run: |
-          if [ "${{ matrix.os }}" = "windows-latest" ]; then
-            npm install --platform=win32 --arch=x64 @rollup/rollup-win32-x64-msvc
-          elif [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
-            npm install --platform=linux --arch=x64 @rollup/rollup-linux-x64-gnu
-          elif [ "${{ matrix.os }}" = "macos-latest" ]; then
-            npm install --platform=darwin --arch=x64 @rollup/rollup-darwin-x64
-          fi
-          
+      - name: Install dependencies
+        run: npm ci
+        
+      # 使用 package.json 中定义的构建命令
       - name: Build App
         run: npm run build
         env:
