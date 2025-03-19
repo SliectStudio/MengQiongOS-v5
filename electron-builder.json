@@ -12,7 +12,7 @@
     ".output/**/*"
   ],
   "mac": {
-    "artifactName": "${productName}_${version}_mac_${arch}.${ext}",
+    "artifactName": "${productName}-${version}-mac-${arch}.${ext}",
     "target": [
       {
         "target": "dmg",
@@ -36,7 +36,7 @@
         "arch": ["x64", "ia32"]
       }
     ],
-    "artifactName": "${productName}_${version}_win_${arch}.${ext}"
+    "artifactName": "${productName}-${version}-win-${arch}.${ext}"
   },
   "linux": {
     "target": [
@@ -53,7 +53,7 @@
         "arch": ["x64"]
       }
     ],
-    "artifactName": "${productName}_${version}_linux_${arch}.${ext}",
+    "artifactName": "${productName}-${version}-linux-${arch}.${ext}",
     "category": "Development"
   },
   "nsis": {

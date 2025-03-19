@@ -76,8 +76,8 @@ jobs:
         with:
           tag_name: v${{ env.version }}
           name: Release v${{ env.version }}
-          files: |
-            artifacts/**
+          files: artifacts/**/*[0-9].*
+          fail_on_unmatched_files: false
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
