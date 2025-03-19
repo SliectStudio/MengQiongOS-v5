@@ -23,32 +23,37 @@ jobs:
           
       - name: Get package version
         id: package_version
-        run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+        shell: bash
+        run: |
+          echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
           
       - name: Install dependencies
         run: yarn install
         
-      # 使用 package.json 中定义的构建命令
       - name: Build App
         run: yarn run build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: List build output
+        shell: bash
+        run: |
+          ls -R release/
           
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: builds-${{ matrix.os }}
           path: |
-            release/${{ steps.package_version.outputs.version }}/*.exe
-            release/${{ steps.package_version.outputs.version }}/*.msi
-            release/${{ steps.package_version.outputs.version }}/*.dmg
-            release/${{ steps.package_version.outputs.version }}/*.zip
-            release/${{ steps.package_version.outputs.version }}/*.AppImage
-            release/${{ steps.package_version.outputs.version }}/*.deb
-            release/${{ steps.package_version.outputs.version }}/*.rpm
-            .output/**/*
+            release/**/*.exe
+            release/**/*.msi
+            release/**/*.dmg
+            release/**/*.zip
+            release/**/*.AppImage
+            release/**/*.deb
+            release/**/*.rpm
           retention-days: 5
-          if-no-files-found: warn  # 改为 warn 避免因为某些平台没有特定格式而失败
+          if-no-files-found: warn
           
   release:
     needs: build
@@ -69,17 +74,10 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: v${{ steps.package_version.outputs.version }}
-          name: Release v${{ steps.package_version.outputs.version }}
+          tag_name: v${{ env.version }}
+          name: Release v${{ env.version }}
           files: |
-            artifacts/**/*.exe
-            artifacts/**/*.msi
-            artifacts/**/*.dmg
-            artifacts/**/*.zip
-            artifacts/**/*.AppImage
-            artifacts/**/*.deb
-            artifacts/**/*.rpm
-            artifacts/**/.output/**/*
+            artifacts/**
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
