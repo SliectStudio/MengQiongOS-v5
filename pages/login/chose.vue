@@ -155,7 +155,7 @@ h2 {
 
 .user-card:hover {
   transform: scale(1.02);
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--hover-color); /*使用悬浮背景色*/
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -165,7 +165,7 @@ h2 {
   width: 45px;
   height: 45px;
   border-radius: 50%;
-  background: #6200ea;
+  background: var(--primary-color); /*/修改为主题色*/
   color: white;
   display: flex;
   align-items: center;

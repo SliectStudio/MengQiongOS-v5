@@ -6,9 +6,46 @@
 }
 
 :root {
-  --primary-color: #4a90e2;
+  /* 主色调 */
+  --primary-color: #565DF0;
+  --primary-light: #7074f3;
+  --primary-dark: #4147ed;
+  --primary-gradient: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%);
+  --primary-shadow: rgba(86, 93, 240, 0.25);
+  
+  /* 状态色 */
+  --hover-state: #7074f3;
+  --active-state: #4147ed;
+  --disabled-state: rgba(86, 93, 240, 0.5);
+
+  /* 文本颜色 */
   --text-color: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --text-disabled: rgba(255, 255, 255, 0.4);
+  --text-primary: var(--primary-color);
+  
+  /* 背景颜色 */
   --background-color: #111111;
+  --background-light: #1a1a1a;
+  --background-dark: #0a0a0a;
+  
+  /* 功能色 */
+  --success-color: #52c41a;
+  --warning-color: #faad14; 
+  --error-color: #ff4d4f;
+  --info-color: var(--primary-color);
+  
+  /* 交互色 */
+  --hover-color: rgba(255, 255, 255, 0.1);
+  --active-color: rgba(255, 255, 255, 0.2);
+  --disabled-color: rgba(255, 255, 255, 0.04);
+  
+  /* 边框颜色 */
+  --border-color: rgba(255, 255, 255, 0.12);
+  --divider-color: rgba(255, 255, 255, 0.08);
+  --border-primary: var(--primary-color);
+  
+  /* 其他 */
   --hint-text-color: var(--primary-color);
   --font-family: 'HarmonyOS Sans SC', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
@@ -24,6 +61,16 @@ body {
   text-rendering: optimizeLegibility;
   font-weight: 500;
   letter-spacing: -0.2px;
+}
+
+/* 隐藏滚动条 */
+::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 /* 全局页面过渡效果 */

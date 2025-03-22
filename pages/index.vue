@@ -259,7 +259,7 @@ onMounted(() => {
 .hint-text {
   position: absolute;
   bottom: 80px;
-  color: var(--hint-text-color);
+  color: var(--primary-color); /*修改提示文本颜色为主题色*/
   font-size: 1rem;
   opacity: 0.9;
 }

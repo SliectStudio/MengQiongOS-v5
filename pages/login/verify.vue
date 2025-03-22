@@ -192,7 +192,7 @@ onMounted(async () => {
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background: #6200ea;
+  background: var(--primary-color); /*修改为主题色*/
   color: white;
   display: flex;
   align-items: center;
@@ -247,7 +247,7 @@ button {
   width: 100%;
   box-sizing: border-box;  /* 确保padding不会影响总宽度 */
   padding: 12px 15px;  /* 调整内边距与输入框一致 */
-  background: #6200ea;
+  background: var(--primary-color); /*修改为主题色*/
   border: none;
   border-radius: 8px;
   color: var(--text-color);
@@ -257,7 +257,7 @@ button {
 }
 
 button:hover {
-  background: #7722FF;
+  background: var(--hover-state); /*使用悬浮状态色*/
   transform: translateY(-1px);
 }
 

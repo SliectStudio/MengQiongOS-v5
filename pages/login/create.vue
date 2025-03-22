@@ -1,7 +1,7 @@
 <template>
   <div class="create-container">
     <div class="create-card">
-      <h2>创建本地账户</h2>
+      <h2>添加本地账户</h2>
       <div class="avatar-upload" @click="triggerFileInput">
         <input
           type="file"
@@ -38,6 +38,21 @@
           placeholder="密码"
           ref="passwordInput"
         />
+        <div class="agreement-checkbox">
+          <input
+            type="checkbox"
+            id="agreement"
+            v-model="userData.agreementAccepted"
+          />
+          <label for="agreement">
+            我已详细阅读并同意
+            <div class="agreement-links">
+              <a href="#">Sliect ID 用户使用协议</a>
+              <a href="#">Sliect Studio 隐私政策</a>
+              <a href="#">Sliect Studio Portable Router 管理面板最终用户使用协议</a>
+            </div>
+          </label>
+        </div>
         <button @click="handleCreate" :disabled="!isFormValid">创建账户</button>
         <div class="back-link" @click="router.push('/login/chose')">返回选择用户</div>
       </div>
@@ -74,7 +89,8 @@ const userData = ref({
   email: '',
   password: '',
   avatar: '',
-  role: 'user'
+  role: 'user',
+  agreementAccepted: false
 })
 
 const validationRules = {
@@ -143,7 +159,8 @@ const isFormValid = computed(() => {
   return userData.value.name && 
          userData.value.email && 
          userData.value.password && 
-         /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userData.value.email)
+         /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userData.value.email) &&
+         userData.value.agreementAccepted
 })
 
 const focusNext = (next: string) => {
@@ -307,7 +324,7 @@ input:focus {
 button {
   width: 100%;
   padding: 12px 15px;
-  background: #6200ea;
+  background: var(--primary-color); /*修改为主题色*/
   border: none;
   border-radius: 8px;
   color: var(--text-color);
@@ -317,12 +334,12 @@ button {
 }
 
 button:disabled {
-  background: rgba(98, 0, 234, 0.5);
+  background: var(--disabled-state); /*使用禁用状态色*/
   cursor: not-allowed;
 }
 
 button:not(:disabled):hover {
-  background: #7722FF;
+  background: var(--hover-state); /*使用悬浮状态色*/
   transform: translateY(-1px);
 }
 
@@ -412,5 +429,42 @@ button:not(:disabled):hover {
     opacity: 0;
     transform: scale(0.95);
   }
+}
+
+.agreement-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 10px;
+}
+
+.agreement-checkbox input[type="checkbox"] {
+  margin-top: 3px;
+  width: 16px;
+  height: 16px;
+}
+
+.agreement-checkbox label {
+  line-height: 1.4;
+  flex: 1;
+}
+
+.agreement-links {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.agreement-links a {
+  color: var(--primary-color); /*/修改链接颜色为主题色*/
+  text-decoration: none;
+  display: block;
+}
+
+.agreement-links a:hover {
+  text-decoration: underline;
 }
 </style>
