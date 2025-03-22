@@ -41,12 +41,20 @@ export default defineNuxtConfig({
   app: {
     baseURL: './',
     buildAssetsDir: '/',
+    pageTransition: {
+      name: 'page',
+      mode: 'out-in'
+    }
   },
 
   runtimeConfig: {
     app: {
       baseURL: './',
       buildAssetsDir: '/',
+      pageTransition: {
+        name: 'page',
+        mode: 'out-in'
+      }
     },
   },
 

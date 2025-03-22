@@ -25,5 +25,8 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
 
 contextBridge.exposeInMainWorld('electronAPI', {
   getPowerStatus: () => ipcRenderer.invoke('get-power-status'),
-  getAppStartTime: () => ipcRenderer.invoke('app-start-time')
+  getAppStartTime: () => ipcRenderer.invoke('app-start-time'),
+  // 添加账户相关API
+  readAccounts: () => ipcRenderer.invoke('read-accounts'),
+  writeAccounts: (data: any) => ipcRenderer.invoke('write-accounts', data)
 })

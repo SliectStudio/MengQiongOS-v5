@@ -1,7 +1,7 @@
 <template>
-  <div class="home" ref="homeRef">
-    <h1>欢迎来到 MengQiongOS</h1>
-    <div class="startup-animation" v-if="showStartup">
+  <div class="home" ref="homeRef" @click="handleClick">
+    <!--<h1>欢迎来到 MengQiongOS</h1>-->
+    <div class="startup-animation" v-if="showStartup" :class="{ 'fade-out': isExiting }">
       <transition name="zoom-fade">
         <img v-if="showFirstHero" src="~/assets/images/firsthero.png" class="hero-image" alt="First Hero">
       </transition>
@@ -36,6 +36,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 
 // 状态管理
 const homeRef = ref<HTMLElement | null>(null)
@@ -48,6 +49,7 @@ const currentTime = ref('')
 const currentDate = ref('')
 const powerStatus = ref('外接电源')
 const currentTask = ref('')
+const isExiting = ref(false)
 const tasks = ref<Array<{ name: string, action: () => Promise<void> }>>([
   {
     name: '正在获取电池信息',
@@ -111,6 +113,17 @@ const executeTasks = async () => {
   }, 500)
 }
 
+const router = useRouter()
+
+const handleClick = () => {
+  if (showFinalStage.value && !isExiting.value) {
+    isExiting.value = true
+    setTimeout(() => {
+      router.push('/login/chose')
+    }, 800) // 调整为与全局过渡时间一致
+  }
+}
+
 onMounted(() => {
   // 第一阶段：显示首个英雄图片
   setTimeout(() => {
@@ -131,7 +144,7 @@ onMounted(() => {
   height: 100vh;
   position: relative;
   overflow: hidden;
-  background: #000;
+  background: var(--background-color);
 }
 
 .startup-animation {
@@ -145,6 +158,11 @@ onMounted(() => {
   align-items: center;
   transform: translateY(-85px); /* 整体向上移动80px */
   perspective: 1000px;
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.startup-animation.fade-out {
+  opacity: 0;
 }
 
 .hero-image,

@@ -1,11 +1,46 @@
+@font-face {
+  font-family: 'HarmonyOS Sans SC';
+  src: url('../fonts/HarmonyOS_Sans_SC_Medium.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root {
   --primary-color: #4a90e2;
-  --background-color: #ffffff;
+  --text-color: #ffffff;
+  --background-color: #111111;
   --hint-text-color: var(--primary-color);
+  --font-family: 'HarmonyOS Sans SC', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 body {
   margin: 0 !important;
   padding: 0;
-  font-family: Arial, sans-serif;
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  color: var(--text-color); /* 添加默认文本颜色 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-weight: 500;
+  letter-spacing: -0.2px;
+}
+
+/* 全局页面过渡效果 */
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.5s ease;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+}
+
+.page-enter-to,
+.page-leave-from {
+  opacity: 1;
 }

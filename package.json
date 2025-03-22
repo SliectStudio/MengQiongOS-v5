@@ -1,6 +1,6 @@
 {
   "name": "mengqiongos-desktop",
-  "version": "5.1.0-alpha.1",
+  "version": "5.1.0-alpha.2",
   "private": true,
   "author": "JamYido <2812856215@qq.com>",
   "main": "dist-electron/main.js",
@@ -18,5 +18,9 @@
     "vite-plugin-electron-renderer": "^0.14.6",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
+  },
+  "dependencies": {
+    "@vue/runtime-dom": "^3.5.13",
+    "vue-class-component": "^8.0.0-rc.1"
   }
 }

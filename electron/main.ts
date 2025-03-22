@@ -1,5 +1,6 @@
 import { app, BrowserWindow, ipcMain, powerMonitor } from 'electron'
 import path from 'node:path'
+import fs from 'node:fs/promises'
 
 // The built directory structure
 //
@@ -26,12 +27,16 @@ let win: BrowserWindow | null
 
 function createWindow() {
   win = new BrowserWindow({
+    frame: false,
+    titleBarStyle: 'hidden',
     webPreferences: {
       preload: path.join(MAIN_DIST, 'preload.js'),
       contextIsolation: true,
       nodeIntegration: false,
-      webSecurity: true,
-      sandbox: true
+      webSecurity: false, // 允许加载本地资源
+      sandbox: true,
+      // 添加以下配置
+      partition: 'persist:mengqiongos'
     },
   })
   
@@ -41,14 +46,7 @@ function createWindow() {
       responseHeaders: {
         ...details.responseHeaders,
         'Content-Security-Policy': [
-          "default-src 'self'",
-          "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
-          "style-src 'self' 'unsafe-inline'",
-          "img-src 'self' data: https:",
-          "font-src 'self'",
-          "connect-src 'self'",
-          "base-uri 'self'",
-          "form-action 'self'"
+          
         ].join('; ')
       }
     })
@@ -65,6 +63,35 @@ function createWindow() {
     win.loadFile(path.join(RENDERER_DIST, 'index.html'))  // 确保使用path.join
   }
   win.webContents.openDevTools()
+}
+
+function getAccountsPath(): string {
+  if (app.isPackaged) {
+    const userDataPath = app.getPath('userData');
+    console.log('用户数据目录:', userDataPath); // 添加这行来显示具体路径
+    return path.join(userDataPath, 'data', 'accounts.json')
+  }
+  return path.join(app.getAppPath(), 'data', 'accounts.json')
+}
+
+// 添加确保数据目录存在的函数
+async function ensureDataFile() {
+  const dataDir = path.dirname(getAccountsPath())
+  try {
+    await fs.access(dataDir)
+  } catch {
+    await fs.mkdir(dataDir, { recursive: true })
+  }
+  
+  try {
+    await fs.access(getAccountsPath())
+  } catch {
+// 如果文件不存在，创建默认文件
+    const defaultContent = {
+      accounts: []
+    }
+    await fs.writeFile(getAccountsPath(), JSON.stringify(defaultContent, null, 2))
+  }
 }
 
 function initIpc() {
@@ -93,6 +120,27 @@ function initIpc() {
       charging: isCharging
     }
   })
+
+  // 添加账户文件操作处理
+  ipcMain.handle('read-accounts', async () => {
+    try {
+      const data = await fs.readFile(getAccountsPath(), 'utf8')
+      return JSON.parse(data)
+    } catch (error) {
+      console.error('读取accounts.json失败:', error)
+      return { accounts: [] }
+    }
+  })
+
+  ipcMain.handle('write-accounts', async (_, data) => {
+    try {
+      await fs.writeFile(getAccountsPath(), JSON.stringify(data, null, 2))
+      return true
+    } catch (error) {
+      console.error('写入accounts.json失败:', error)
+      return false
+    }
+  })
 }
 
 app.on('window-all-closed', () => {
@@ -108,7 +156,8 @@ app.on('activate', () => {
   }
 })
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
+  await ensureDataFile() // 添加这一行
   initIpc()
   createWindow()
 })
