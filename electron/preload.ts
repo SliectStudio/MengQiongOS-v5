@@ -28,5 +28,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
   getAppStartTime: () => ipcRenderer.invoke('app-start-time'),
   // 添加账户相关API
   readAccounts: () => ipcRenderer.invoke('read-accounts'),
-  writeAccounts: (data: any) => ipcRenderer.invoke('write-accounts', data)
+  writeAccounts: (data: any) => ipcRenderer.invoke('write-accounts', data),
+  showKeyboard: () => ipcRenderer.invoke('show-keyboard')
 })

@@ -1,20 +1,24 @@
 <template>
   <div class="chose-container" :class="{ 'expanded': showDropdown }">
     <h2>选择用户</h2>
-    <div class="users-grid">
-      <div v-for="user in accounts" 
-           :key="user.id" 
-           class="user-card"
-           @click="handleUserSelect(user)">
-        <div class="avatar">
-          <img v-if="user.avatar" :src="user.avatar" :alt="user.name">
-          <span v-else>{{ user.name.charAt(0) }}</span>
+    <div class="content-wrapper">
+      <div class="users-container" :style="containerStyle">
+        <div class="users-scroll">
+          <div v-for="user in accounts" 
+               :key="user.id" 
+               class="user-card"
+               @click="handleUserSelect(user)">
+            <div class="avatar">
+              <img v-if="user.avatar" :src="user.avatar" :alt="user.name">
+              <span v-else>{{ user.name.charAt(0) }}</span>
+            </div>
+            <div class="user-info">
+              <div class="name">{{ user.name }}</div>
+              <div class="email">{{ user.email }}</div>
+            </div>
+            <Right theme="outline" size="25" class="right-icon" style="margin-right: 25px;"/>
+          </div>
         </div>
-        <div class="user-info">
-          <div class="name">{{ user.name }}</div>
-          <div class="email">{{ user.email }}</div>
-        </div>
-        <Right theme="outline" size="25" class="right-icon" style="margin-right: 25px;"/>
       </div>
       <div class="user-card add-user" @click="toggleDropdown">
         <div class="add-content">
@@ -52,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { Plus, Avatar, LinkCloud, StarOne, Right } from '@/components/icons'
 import { useRouter } from 'vue-router'
 
@@ -92,6 +96,11 @@ const handleUserSelect = (user: User) => {
   })
 }
 
+const containerStyle = computed(() => ({
+  height: showDropdown.value ? '25vh' : '50vh',  // 减小展开时的高度
+  transition: 'height 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+}))
+
 onMounted(async () => {
   try {
     if (window.electronAPI) {
@@ -112,34 +121,76 @@ onMounted(async () => {
 .chose-container {
   width: 100%;
   height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.chose-container.expanded {
-  transform: translateY(-120px);
+  overflow: hidden;
 }
 
 h2 {
-  text-align: center;
-  margin-bottom: 2rem;
+  position: absolute;
+  top: 13%;
   color: var(--text-color);
 }
 
-.users-grid {
+.content-wrapper {
+  position: absolute;
+  top: 24%;
+  width: 500px;
+  max-width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.users-container {
+  background: rgba(160, 159, 159, 0.05);
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  overflow: hidden; /* 添加这行来隐藏溢出内容 */
+  position: relative; /* 添加相对定位 */
+}
+
+.users-scroll {
+  position: absolute; /* 改为绝对定位 */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  width: 500px;
-  max-width: 90%;
+  gap: 1rem; /* 添加卡片之间的间距 */
+}
+
+/* 自定义滚动条样式 */
+.users-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.users-scroll::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.users-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+.users-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
 }
 
 .user-card {
-  width: 400px;
+  width: 95%; /* 修改宽度以适应容器 */
+  min-width: 350px; /* 设置最小宽度 */
+  max-width: 450px; /* 设置最大宽度 */
   height: 50px;
   display: flex;
   align-items: center;
@@ -149,9 +200,8 @@ h2 {
   backdrop-filter: blur(10px);
   cursor: pointer;
   transition: transform 0.2s;
+  margin: 0 auto; /* 水平居中 */
 }
-
-
 
 .user-card:hover {
   transform: scale(1.02);
@@ -202,6 +252,7 @@ h2 {
   height: 50px;
   background: rgba(255, 255, 255, 0.05);
   border: 2px dashed rgba(255, 255, 255, 0.2);
+  margin-top: 1rem;
 }
 
 .add-content {
@@ -246,10 +297,10 @@ h2 {
   margin-top: 8px;
   background: rgba(30, 30, 30, 0.95);
   border-radius: 12px;
-  padding: 8px 0;
+  padding: 12px 0;  /* 增加内边距 */
   backdrop-filter: blur(10px);
   opacity: 0;
-  transform: translateY(-20px);
+  transform: translateY(-50px);  /* 增加上移距离 */
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   visibility: hidden;
 }
@@ -301,5 +352,68 @@ h2 {
 
 .add-user .right-icon.rotated {
   transform: rotate(-90deg);
+}
+
+.content-wrapper {
+  width: min(500px, 95vw);
+}
+
+.user-card {
+  min-height: min(60px, 12vh);  /* 增加卡片高度 */
+  padding: min(12px, 2vh) min(15px, 3vw);
+}
+
+.avatar {
+  width: min(50px, 10vw);
+  height: min(50px, 10vw);
+  font-size: min(1.5rem, 5vw);
+}
+
+.name {
+  font-size: min(1.1rem, 4vw);
+}
+
+.email {
+  font-size: min(0.9rem, 3.5vw);
+}
+
+.dropdown-item {
+  padding: min(15px, 3vh) min(20px, 4vw);
+  min-height: 45px;  /* 确保触控友好的最小高度 */
+}
+
+.icon-circle {
+  width: min(45px, 9vw);
+  height: min(45px, 9vw);
+}
+
+/* 添加触控优化 */
+.user-card, .dropdown-item {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;  /* 移除移动端点击高亮 */
+  touch-action: manipulation;  /* 优化触控行为 */
+}
+
+/* 针对移动设备的优化 */
+@media (max-width: 768px) {
+  .users-container {
+    max-height: 60vh;  /* 在移动设备上限制容器高度 */
+  }
+  
+  .dropdown-menu {
+    max-height: 70vh;  /* 限制下拉菜单高度 */
+    overflow-y: auto;
+  }
+}
+
+/* 针对移动设备的优化 */
+@media screen and (max-height: 800px) {
+  .users-container {
+    max-height: 55vh;  /* 调整容器最大高度 */
+  }
+  
+  .dropdown-menu {
+    transform: translateY(-40px);  /* 小屏幕时适当减小上移距离 */
+  }
 }
 </style>

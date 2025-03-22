@@ -71,5 +71,10 @@ export default defineNuxtConfig({
     payloadExtraction: false,
   },
 
-  compatibilityDate: '2025-03-20'
+  compatibilityDate: '2025-03-20',
+
+  // 添加插件配置
+  plugins: [
+    '~/plugins/keyboard.ts'
+  ],
 })

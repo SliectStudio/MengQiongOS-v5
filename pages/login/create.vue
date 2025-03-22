@@ -250,8 +250,8 @@ const handleCreate = async () => {
 }
 
 .create-card {
-  width: 400px;
-  padding: 30px;
+  width: min(400px, 90vw);
+  padding: min(30px, 5vh) min(30px, 5vw);
   background: rgba(160, 159, 159, 0.103);
   border-radius: 15px;
   backdrop-filter: blur(10px);
@@ -265,6 +265,7 @@ h2 {
   color: var(--text-color);
   margin: 0;
   text-align: center;
+  font-size: min(1.8rem, 6vw);
 }
 
 .avatar-upload {
@@ -276,8 +277,8 @@ h2 {
 }
 
 .avatar-preview {
-  width: 80px;
-  height: 80px;
+  width: min(90px, 15vw);
+  height: min(90px, 15vw);
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.1);
   display: flex;
@@ -307,12 +308,13 @@ h2 {
 }
 
 input {
-  padding: 12px 15px;
+  padding: min(15px, 3vh) min(20px, 4vw);
   background: rgba(255, 255, 255, 0.1);
   border: none;
   border-radius: 8px;
   color: var(--text-color);
-  font-size: 1rem;
+  font-size: min(1.0rem, 4vw);
+  min-height: 35px;
   transition: background-color 0.2s;
 }
 
@@ -323,12 +325,13 @@ input:focus {
 
 button {
   width: 100%;
-  padding: 12px 15px;
+  padding: min(15px, 3vh);
   background: var(--primary-color); /*修改为主题色*/
   border: none;
   border-radius: 8px;
   color: var(--text-color);
-  font-size: 1rem;
+  font-size: min(1.1rem, 4vw);
+  min-height: 45px;
   cursor: pointer;
   transition: transform 0.2s, background-color 0.2s;
 }
@@ -435,15 +438,16 @@ button:not(:disabled):hover {
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  font-size: 0.9rem;
+  font-size: min(0.9rem, 3.5vw);
   color: rgba(255, 255, 255, 0.7);
   margin-top: 10px;
 }
 
 .agreement-checkbox input[type="checkbox"] {
   margin-top: 3px;
-  width: 16px;
-  height: 16px;
+  width: min(20px, 5vw);
+  height: min(20px, 5vw);
+  margin: 8px;  /* 增加可点击区域 */
 }
 
 .agreement-checkbox label {

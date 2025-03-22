@@ -1,6 +1,32 @@
 import { app, BrowserWindow, ipcMain, powerMonitor } from 'electron'
 import path from 'node:path'
 import fs from 'node:fs/promises'
+import { exec } from 'child_process'
+
+// 添加这个函数到文件开头
+function showTouchKeyboard() {
+  if (process.platform === 'win32') {
+    // 尝试多种方法来启动触摸键盘
+    const methods = [
+      'C:\\Windows\\System32\\cmd.exe /c "C:\\Program Files\\Common Files\\Microsoft Shared\\ink\\TabTip.exe"',
+      'C:\\Windows\\System32\\cmd.exe /c "start C:\\Windows\\System32\\osk.exe"'
+    ]
+
+    for (const method of methods) {
+      try {
+        exec(method, (error) => {
+          if (error) {
+            console.log(`Method ${method} failed:`, error)
+          } else {
+            console.log(`Successfully launched keyboard using: ${method}`)
+          }
+        })
+      } catch (err) {
+        console.log(`Failed to execute ${method}:`, err)
+      }
+    }
+  }
+}
 
 // The built directory structure
 //
@@ -140,6 +166,13 @@ function initIpc() {
       console.error('写入accounts.json失败:', error)
       return false
     }
+  })
+
+  // 修改现有的ipcMain处理函数
+  ipcMain.handle('show-keyboard', () => {
+    console.log('Attempting to show keyboard...')
+    showTouchKeyboard()
+    return true
   })
 }
 

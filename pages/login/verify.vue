@@ -169,8 +169,8 @@ onMounted(async () => {
 }
 
 .verify-card {
-  width: 400px;
-  padding: 30px;
+  width: min(400px, 90vw);
+  padding: min(30px, 5vh) min(30px, 5vw);
   background: rgba(160, 159, 159, 0.103);
   border-radius: 15px;
   backdrop-filter: blur(10px);
@@ -189,8 +189,8 @@ onMounted(async () => {
 }
 
 .avatar {
-  width: 80px;
-  height: 80px;
+  width: min(90px, 15vw);
+  height: min(90px, 15vw);
   border-radius: 50%;
   background: var(--primary-color); /*修改为主题色*/
   color: white;
@@ -210,12 +210,12 @@ onMounted(async () => {
 h2 {
   color: var(--text-color);
   margin: 0;
-  font-size: 1.5rem;
+  font-size: min(1.8rem, 6vw);
 }
 
 .email {
   color: rgba(255, 255, 255, 0.7);
-  font-size: 0.9rem;
+  font-size: min(1rem, 4vw);
 }
 
 .form {
@@ -229,12 +229,13 @@ h2 {
 
 input {
   box-sizing: border-box;  /* 确保padding不会影响总宽度 */
-  padding: 12px 15px;  /* 调整内边距 */
+  padding: min(15px, 3vh) min(20px, 4vw);  /* 调整内边距 */
   background: rgba(255, 255, 255, 0.1);
   border: none;
   border-radius: 8px;
   color: var(--text-color);
-  font-size: 1rem;
+  font-size: min(1.1rem, 4vw);
+  min-height: 45px;  /* 确保触控友好的最小高度 */
   transition: background-color 0.2s;
 }
 
@@ -246,12 +247,13 @@ input:focus {
 button {
   width: 100%;
   box-sizing: border-box;  /* 确保padding不会影响总宽度 */
-  padding: 12px 15px;  /* 调整内边距与输入框一致 */
+  padding: min(15px, 3vh);  /* 调整内边距与输入框一致 */
   background: var(--primary-color); /*修改为主题色*/
   border: none;
   border-radius: 8px;
   color: var(--text-color);
-  font-size: 1rem;
+  font-size: min(1.1rem, 4vw);
+  min-height: 45px;  /* 触控友好的最小高度 */
   cursor: pointer;
   transition: transform 0.2s, background-color 0.2s;
 }
@@ -264,7 +266,8 @@ button:hover {
 .back-link {
   text-align: center;
   color: rgba(255, 255, 255, 0.7);
-  font-size: 0.9rem;
+  font-size: min(1rem, 4vw);
+  padding: 12px;  /* 增加可点击区域 */
   cursor: pointer;
   transition: color 0.2s;
 }
@@ -289,7 +292,7 @@ button:hover {
 
 .error-content {
   background: rgba(255, 59, 48, 0.95);
-  padding: 20px 40px;
+  padding: min(25px, 5vh) min(45px, 8vw);
   border-radius: 15px;
   backdrop-filter: blur(10px);
   display: flex;
@@ -314,7 +317,7 @@ button:hover {
 
 .error-message {
   color: white;
-  font-size: 1.2rem;
+  font-size: min(1.3rem, 5vw);
   font-weight: bold;
 }
 

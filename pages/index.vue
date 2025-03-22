@@ -22,11 +22,13 @@
             <div class="time">{{ currentTime }}</div>
             <div class="date">{{ currentDate }}</div>
           </div>
-          <div class="power-status">
-            {{ powerStatus }}
-          </div>
-          <div class="hint-text">
-            轻触屏幕以进入 Portable Router 管理面板
+          <div class="bottom-container">
+            <div class="power-status">
+              {{ powerStatus }}
+            </div>
+            <div class="hint-text">
+              轻触屏幕以进入 Portable Router 管理面板
+            </div>
           </div>
         </div>
       </transition>
@@ -120,7 +122,7 @@ const handleClick = () => {
     isExiting.value = true
     setTimeout(() => {
       router.push('/login/chose')
-    }, 800) // 调整为与全局过渡时间一致
+    }, 500) // 缩短过渡时间
   }
 }
 
@@ -133,8 +135,8 @@ onMounted(() => {
       showSecondStage.value = true
       showLoading.value = true
       executeTasks() // 开始执行任务
-    }, 500)
-  }, 1000)
+    }, 300) // 缩短过渡延迟
+  }, 800) // 缩短初始显示时间
 })
 </script>
 
@@ -156,9 +158,9 @@ onMounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  transform: translateY(-85px); /* 整体向上移动80px */
+  transform: translateY(-60px); /* 减少偏移距离 */
   perspective: 1000px;
-  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.5s ease; /* 简化过渡效果 */
 }
 
 .startup-animation.fade-out {
@@ -167,8 +169,10 @@ onMounted(() => {
 
 .hero-image,
 .logo-image {
-  max-width: 50%;
-  max-height: 50%;
+  max-width: min(50%, 70vw);
+  max-height: min(50%, 40vh);
+  width: auto;
+  height: auto;
   object-fit: contain;
   position: relative; /* 改为相对定位 */
   backface-visibility: hidden;
@@ -177,25 +181,27 @@ onMounted(() => {
 
 .loading-container {
   position: absolute;
-  bottom: 80px;
+  bottom: min(80px, 10vh);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .loading-image {
-  width: 40px;
-  height: 40px;
+  width: min(60px, 10vw);  /* 进一步增大尺寸 */
+  height: min(60px, 10vw);  /* 进一步增大尺寸 */
   animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to { 
+    transform: rotate(360deg);
+  }
 }
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s ease;
+  transition: opacity 0.3s ease; /* 缩短淡入淡出时间 */
 }
 
 .fade-enter-from,
@@ -205,23 +211,23 @@ onMounted(() => {
 
 .zoom-fade-enter-active,
 .zoom-fade-leave-active {
-  transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);  /* 使用缓动函数并增加动画时长 */
+  transition: all 0.8s ease; /* 简化动画时间和曲线 */
 }
 
 .zoom-fade-enter-from {
   opacity: 0;
-  transform: scale(0.85) translateZ(-200px);  /* 增加缩放和后退效果 */
+  transform: scale(0.9); /* 移除复杂的3D变换，只保留缩放 */
 }
 
 .zoom-fade-leave-to {
   opacity: 0;
-  transform: scale(0.85) translateZ(-200px);  /* 增加缩放和后退效果 */
+  transform: scale(0.9); /* 移除复杂的3D变换，只保留缩放 */
 }
 
 .zoom-fade-enter-to,
 .zoom-fade-leave-from {
   opacity: 1;
-  transform: scale(1) translateZ(0);
+  transform: scale(1);
 }
 
 .final-stage {
@@ -240,28 +246,36 @@ onMounted(() => {
 }
 
 .time {
-  font-size: 4rem;
+  font-size: min(6rem, 12vw);  /* 增大时间显示 */
   font-weight: bold;
 }
 
 .date {
-  font-size: 1.5rem;
-  margin-top: 1rem;
+  font-size: min(2rem, 6vw);   /* 增大日期显示 */
+  margin-top: min(1.5rem, 3vh);
+}
+
+.bottom-container {
+  position: absolute;
+  bottom: min(55px, 15vh);    /* 整体容器的位置 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;                   /* 两个元素之间的间距 */
 }
 
 .power-status {
-  position: absolute;
-  bottom: 120px;
+  position: relative;          /* 改为相对定位 */
   color: white;
-  font-size: 1rem;
+  font-size: min(1.5rem, 4vw);
 }
 
 .hint-text {
-  position: absolute;
-  bottom: 80px;
-  color: var(--primary-color); /*修改提示文本颜色为主题色*/
-  font-size: 1rem;
+  position: relative;          /* 改为相对定位 */
+  color: var(--primary-color);
+  font-size: min(1.5rem, 4vw);
   opacity: 0.9;
+  padding: 15px;               /* 增加可点击区域 */
 }
 
 .second-stage {
@@ -280,13 +294,39 @@ onMounted(() => {
   flex-direction: column;
   align-items: center;
   position: absolute;
-  bottom: 80px;
+  bottom: 60px;
 }
 
 .loading-text {
   color: white;
-  margin-top: 10px;
-  font-size: 14px;
+  margin-top: 40px;  /* 增加间距 */
+  font-size: min(28px, 4vw);  /* 增大字体到20px */
   opacity: 0.8;
+}
+
+/* 添加媒体查询以适应不同屏幕尺寸 */
+@media screen and (max-height: 600px) {
+  .startup-animation {
+    transform: translateY(-30px);
+  }
+  
+  .loading-section {
+    bottom: 40px;
+  }
+  
+  .bottom-container {
+    bottom: 80px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .hero-image,
+  .logo-image {
+    max-width: 70%;
+  }
+  
+  .loading-text {
+    font-size: min(18px, 4vw);  /* 小屏幕时也保持较大字号 */
+  }
 }
 </style>
