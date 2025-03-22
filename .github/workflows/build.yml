@@ -44,7 +44,7 @@ jobs:
         with:
           name: builds-${{ matrix.os }}
           path: |
-            release/${{ steps.package_version.outputs.version }}/*-*
+            release/${{ steps.package_version.outputs.version }}/*
             !release/${{ steps.package_version.outputs.version }}/win-unpacked/**
             !release/${{ steps.package_version.outputs.version }}/mac-unpacked/**
             !release/${{ steps.package_version.outputs.version }}/linux-unpacked/**
